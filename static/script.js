@@ -8,45 +8,53 @@ document.addEventListener('DOMContentLoaded', function() {
     // Navigation handling
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Get the target section ID
-            const targetId = this.getAttribute('href').substring(1);
-            
-            // Update active state in navigation
-            document.querySelectorAll('.nav-link').forEach(navLink => {
-                navLink.classList.remove('active');
-            });
-            this.classList.add('active');
-            
-            // Hide all sections
-            document.querySelectorAll('section.section').forEach(section => {
-                section.classList.add('d-none');
-            });
-            
-            // Show target section
-            const targetSection = document.getElementById(targetId);
-            if (targetSection) {
-                targetSection.classList.remove('d-none');
+            // Only prevent default for section navigation
+            if (this.getAttribute('href').startsWith('#')) {
+                e.preventDefault();
                 
-                // Initialize PDF viewer if about section
-                if (targetId === 'about') {
-                    setTimeout(initPDFViewer, 100);
+                // Get the target section ID
+                const targetId = this.getAttribute('href').substring(1);
+                
+                // Update active state in navigation
+                document.querySelectorAll('.nav-link').forEach(navLink => {
+                    navLink.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Hide all sections first
+                document.querySelectorAll('section.section').forEach(section => {
+                    section.classList.add('d-none');
+                });
+                
+                // Show the target section
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.classList.remove('d-none');
+                    
+                    // Initialize PDF viewer if about section
+                    if (targetId === 'about') {
+                        setTimeout(initPDFViewer, 100);
+                    }
                 }
-            }
-            
-            // Close the navbar collapse on mobile
-            const navbarCollapse = document.querySelector('.navbar-collapse');
-            if (navbarCollapse.classList.contains('show')) {
-                const bsCollapse = new bootstrap.Collapse(navbarCollapse);
-                bsCollapse.hide();
+                
+                // Close the navbar collapse on mobile
+                const navbarCollapse = document.querySelector('.navbar-collapse');
+                if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+                    const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
+                    if (bsCollapse) {
+                        bsCollapse.hide();
+                    }
+                }
             }
         });
     });
 
-    // Show home section by default
-    document.getElementById('home').classList.remove('d-none');
-    
+    // Show home section by default and activate its nav link
+    const homeSection = document.getElementById('home');
+    const homeLink = document.querySelector('a[href="#home"]');
+    if (homeSection) homeSection.classList.remove('d-none');
+    if (homeLink) homeLink.classList.add('active');
+
     document.getElementById('measurementForm').addEventListener('submit', function(e) {
         e.preventDefault();
         saveMeasurement();
