@@ -66,6 +66,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Your Name - [@yourtwitter](https://twitter.com/yourtwitter)
-
-Project Link: [https://github.com/yourusername/diabetetracker-pro](https://github.com/yourusername/diabetetracker-pro)
+Your Name - Pravar Reddy
+Project Link: [https://github.com/t4tarzan/diabetetracker-pro] 
+Project Live lInk : https://vercel.com/t4tarzans-projects/diabetetracker-pro
