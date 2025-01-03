@@ -5,6 +5,29 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeChart();
     updateStats();
     
+    // Navigation handling
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            
+            // Update active state in navigation
+            document.querySelectorAll('.nav-link').forEach(navLink => {
+                navLink.classList.remove('active');
+            });
+            this.classList.add('active');
+            
+            // Show/hide sections
+            document.querySelectorAll('section.section').forEach(section => {
+                section.classList.add('d-none');
+            });
+            document.getElementById(targetId).classList.remove('d-none');
+        });
+    });
+
+    // Show home section by default
+    document.getElementById('home').classList.remove('d-none');
+    
     document.getElementById('measurementForm').addEventListener('submit', function(e) {
         e.preventDefault();
         saveMeasurement();
