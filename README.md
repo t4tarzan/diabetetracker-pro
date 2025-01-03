@@ -65,7 +65,6 @@ vercel
 Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
-
-Your Name - Pravar Reddy
+Pravar Reddy - (Gaudium MYP 5)
 Project Link: [https://github.com/t4tarzan/diabetetracker-pro] 
-Project Live lInk : https://vercel.com/t4tarzans-projects/diabetetracker-pro
+Project Live lInk :[https://diabetetracker-pro.vercel.app/]
