@@ -166,9 +166,95 @@
 
         <!-- Tools Section -->
         <section id="tools" class="section d-none">
-            <h2>Diabetes Management Tools</h2>
-            <div class="row" id="tools-container">
-                <!-- Tools content will be added dynamically -->
+            <div class="container py-4">
+                <h2 class="text-center mb-4">Diabetes Management Tools</h2>
+                <div class="row g-4" id="tools-container">
+                    <!-- Insulin Calculator -->
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100 tool-card">
+                            <div class="card-body text-center">
+                                <i class="fas fa-calculator tool-icon mb-3"></i>
+                                <h4 class="card-title">Insulin Calculator</h4>
+                                <p class="card-text">Calculate insulin doses based on carbs and activity</p>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#insulinCalculatorModal">
+                                    Open Calculator
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Meal Planner -->
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100 tool-card">
+                            <div class="card-body text-center">
+                                <i class="fas fa-utensils tool-icon mb-3"></i>
+                                <h4 class="card-title">Meal Planner</h4>
+                                <p class="card-text">Plan meals with carb counting and nutrition info</p>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mealPlannerModal">
+                                    Plan Meals
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Workout Planner -->
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100 tool-card">
+                            <div class="card-body text-center">
+                                <i class="fas fa-dumbbell tool-icon mb-3"></i>
+                                <h4 class="card-title">Workout Planner</h4>
+                                <p class="card-text">Create exercise plans with glucose management</p>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#workoutPlannerModal">
+                                    Plan Workout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Reports Generator -->
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100 tool-card">
+                            <div class="card-body text-center">
+                                <i class="fas fa-file-medical-alt tool-icon mb-3"></i>
+                                <h4 class="card-title">Reports</h4>
+                                <p class="card-text">Generate and export detailed health reports</p>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reportsModal">
+                                    View Reports
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Tools Information -->
+                <div class="row mt-5">
+                    <div class="col-12">
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <h3 class="card-title">How to Use Our Tools</h3>
+                                <p class="card-text">Our diabetes management tools are designed to help you make informed decisions about your health. Each tool provides specific functionality:</p>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item bg-transparent">
+                                        <i class="fas fa-calculator text-primary me-2"></i>
+                                        <strong>Insulin Calculator:</strong> Calculate precise insulin doses based on carb intake and activity level
+                                    </li>
+                                    <li class="list-group-item bg-transparent">
+                                        <i class="fas fa-utensils text-primary me-2"></i>
+                                        <strong>Meal Planner:</strong> Plan balanced meals with accurate carb counting
+                                    </li>
+                                    <li class="list-group-item bg-transparent">
+                                        <i class="fas fa-dumbbell text-primary me-2"></i>
+                                        <strong>Workout Planner:</strong> Create exercise routines with glucose management strategies
+                                    </li>
+                                    <li class="list-group-item bg-transparent">
+                                        <i class="fas fa-file-medical-alt text-primary me-2"></i>
+                                        <strong>Reports:</strong> Generate comprehensive health reports for better tracking
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -203,21 +289,37 @@
                                 <div class="card-body">
                                     <h4 class="card-title">License Information</h4>
                                     <p class="card-text">
-                                        DiabeteTracker Pro is released under the MIT License, which means:
+                                        DiabeteTracker Pro is licensed under the MIT License, which grants you the following rights:
                                     </p>
                                     <ul class="list-unstyled ms-4">
-                                        <li><i class="fas fa-check text-success me-2"></i> Free to use for personal and commercial purposes</li>
-                                        <li><i class="fas fa-check text-success me-2"></i> Can be modified and distributed</li>
-                                        <li><i class="fas fa-check text-success me-2"></i> No warranty required</li>
-                                        <li><i class="fas fa-check text-success me-2"></i> Original license and copyright notice must be included</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Use the software for any purpose</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Study how the software works and modify it</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Distribute copies of the software</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Improve the software and release your improvements</li>
                                     </ul>
                                 </div>
                             </div>
+                            
+                            <!-- PDF Viewer Section -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Detailed Documentation</h4>
+                                    <div class="pdf-controls mb-3">
+                                        <button class="btn btn-sm btn-primary me-2" id="prev">Previous</button>
+                                        <button class="btn btn-sm btn-primary me-2" id="next">Next</button>
+                                        <span class="me-2">Page: <span id="page_num"></span> / <span id="page_count"></span></span>
+                                        <button class="btn btn-sm btn-secondary me-2" id="zoomIn"><i class="fas fa-search-plus"></i></button>
+                                        <button class="btn btn-sm btn-secondary me-2" id="zoomOut"><i class="fas fa-search-minus"></i></button>
+                                        <a href="/static/about.pdf" download class="btn btn-sm btn-success">
+                                            <i class="fas fa-download"></i> Download PDF
+                                        </a>
+                                    </div>
+                                    <div id="pdf-viewer" style="height: 800px; overflow-y: auto;">
+                                        <canvas id="pdf-canvas" style="width: 100%;"></canvas>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-12">
-                        <h3 class="text-center mb-4">Detailed Documentation</h3>
-                        <div id="pdf-viewer"></div>
                     </div>
                 </div>
             </div>

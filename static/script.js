@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
+            
+            // Get the target section ID
             const targetId = this.getAttribute('href').substring(1);
             
             // Update active state in navigation
@@ -17,11 +19,28 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             this.classList.add('active');
             
-            // Show/hide sections
+            // Hide all sections
             document.querySelectorAll('section.section').forEach(section => {
                 section.classList.add('d-none');
             });
-            document.getElementById(targetId).classList.remove('d-none');
+            
+            // Show target section
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                targetSection.classList.remove('d-none');
+                
+                // Initialize PDF viewer if about section
+                if (targetId === 'about') {
+                    setTimeout(initPDFViewer, 100);
+                }
+            }
+            
+            // Close the navbar collapse on mobile
+            const navbarCollapse = document.querySelector('.navbar-collapse');
+            if (navbarCollapse.classList.contains('show')) {
+                const bsCollapse = new bootstrap.Collapse(navbarCollapse);
+                bsCollapse.hide();
+            }
         });
     });
 
@@ -38,6 +57,83 @@ document.addEventListener('DOMContentLoaded', function() {
         loadMeasurements();
         updateStats();
     }, 300000);
+
+    // PDF viewer initialization
+    let pdfDoc = null,
+        pageNum = 1,
+        pageRendering = false,
+        pageNumPending = null,
+        scale = 1.0;
+
+    function initPDFViewer() {
+        const url = '/static/about.pdf';
+        const pdfjsLib = window['pdfjs-dist/build/pdf'];
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
+
+        pdfjsLib.getDocument(url).promise.then(function(pdf) {
+            pdfDoc = pdf;
+            document.getElementById('page_count').textContent = pdf.numPages;
+            renderPage(pageNum);
+        });
+    }
+
+    function renderPage(num) {
+        pageRendering = true;
+        pdfDoc.getPage(num).then(function(page) {
+            const canvas = document.getElementById('pdf-canvas');
+            const ctx = canvas.getContext('2d');
+            const viewport = page.getViewport({scale: scale});
+
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            const renderContext = {
+                canvasContext: ctx,
+                viewport: viewport
+            };
+
+            page.render(renderContext).promise.then(function() {
+                pageRendering = false;
+                if (pageNumPending !== null) {
+                    renderPage(pageNumPending);
+                    pageNumPending = null;
+                }
+            });
+
+            document.getElementById('page_num').textContent = num;
+        });
+    }
+
+    function queueRenderPage(num) {
+        if (pageRendering) {
+            pageNumPending = num;
+        } else {
+            renderPage(num);
+        }
+    }
+
+    // PDF viewer controls
+    document.getElementById('prev').addEventListener('click', function() {
+        if (pageNum <= 1) return;
+        pageNum--;
+        queueRenderPage(pageNum);
+    });
+
+    document.getElementById('next').addEventListener('click', function() {
+        if (pageNum >= pdfDoc.numPages) return;
+        pageNum++;
+        queueRenderPage(pageNum);
+    });
+
+    document.getElementById('zoomIn').addEventListener('click', function() {
+        scale *= 1.2;
+        renderPage(pageNum);
+    });
+
+    document.getElementById('zoomOut').addEventListener('click', function() {
+        scale *= 0.8;
+        renderPage(pageNum);
+    });
 });
 
 function initializeChart() {
